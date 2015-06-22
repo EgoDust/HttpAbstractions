@@ -149,12 +149,14 @@ namespace Microsoft.AspNet.Owin
 
         void IHttpResponseFeature.OnResponseStarting(Func<object, Task> callback, object state)
         {
-            var register = Prop<Action<Func<object, Task>, object>>(OwinConstants.CommonKeys.OnSendingHeaders);
+            var register = Prop<Action<Action<object>, object>>(OwinConstants.CommonKeys.OnSendingHeaders);
             if (register == null)
             {
                 throw new NotSupportedException(OwinConstants.CommonKeys.OnSendingHeaders);
             }
-            register(callback, state);
+
+            // Need to block on the callback since we can't change the OWIN signature to be async
+            register(s => callback(s).GetAwaiter().GetResult(), state);
         }
 
         void IHttpResponseFeature.OnResponseCompleted(Func<object, Task> callback, object state)
