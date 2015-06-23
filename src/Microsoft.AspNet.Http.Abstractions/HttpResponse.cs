@@ -10,6 +10,11 @@ namespace Microsoft.AspNet.Http
     public abstract class HttpResponse
     {
         private static readonly Func<object, Task> _callbackDelegate = callback => ((Func<Task>)callback)();
+        private static readonly Func<object, Task> _disposeDelegate = disposable =>
+        {
+            ((IDisposable)disposable).Dispose();
+            return Task.FromResult(0);
+        };
 
         public abstract HttpContext HttpContext { get; }
 
@@ -29,11 +34,13 @@ namespace Microsoft.AspNet.Http
 
         public abstract void OnResponseStarting(Func<object, Task> callback, object state);
 
-        public virtual void OnResponseStarting(Func<Task> callback) => OnResponseStarting(_callbackDelegate, state: callback);
+        public virtual void OnResponseStarting(Func<Task> callback) => OnResponseStarting(_callbackDelegate, callback);
 
         public abstract void OnResponseCompleted(Func<object, Task> callback, object state);
 
-        public virtual void OnResponseCompleted(Func<Task> callback) => OnResponseCompleted(_callbackDelegate, state: callback);
+        public virtual void DisposeOnCompleted(IDisposable disposable) => OnResponseStarting(_disposeDelegate, disposable);
+
+        public virtual void OnResponseCompleted(Func<Task> callback) => OnResponseCompleted(_callbackDelegate, callback);
 
         public virtual void Redirect(string location) => Redirect(location, permanent: false);
 
