@@ -95,14 +95,14 @@ namespace Microsoft.AspNet.Http.Internal
             get { return HttpResponseFeature.HasStarted; }
         }
 
-        public override void OnResponseStarting(Func<object, Task> callback, object state)
+        public override void OnStarting(Func<object, Task> callback, object state)
         {
-            HttpResponseFeature.OnResponseStarting(callback, state);
+            HttpResponseFeature.OnStarting(callback, state);
         }
 
-        public override void OnResponseCompleted(Func<object, Task> callback, object state)
+        public override void OnCompleted(Func<object, Task> callback, object state)
         {
-            HttpResponseFeature.OnResponseCompleted(callback, state);
+            HttpResponseFeature.OnCompleted(callback, state);
         }
 
         public override void Redirect(string location, bool permanent)

@@ -147,7 +147,7 @@ namespace Microsoft.AspNet.Owin
             get { return _headersSent; }
         }
 
-        void IHttpResponseFeature.OnResponseStarting(Func<object, Task> callback, object state)
+        void IHttpResponseFeature.OnStarting(Func<object, Task> callback, object state)
         {
             var register = Prop<Action<Action<object>, object>>(OwinConstants.CommonKeys.OnSendingHeaders);
             if (register == null)
@@ -159,7 +159,7 @@ namespace Microsoft.AspNet.Owin
             register(s => callback(s).GetAwaiter().GetResult(), state);
         }
 
-        void IHttpResponseFeature.OnResponseCompleted(Func<object, Task> callback, object state)
+        void IHttpResponseFeature.OnCompleted(Func<object, Task> callback, object state)
         {
             throw new NotSupportedException();
         }

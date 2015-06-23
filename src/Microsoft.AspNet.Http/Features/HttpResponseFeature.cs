@@ -30,12 +30,12 @@ namespace Microsoft.AspNet.Http.Features.Internal
             get { return false; }
         }
 
-        public void OnResponseStarting(Func<object, Task> callback, object state)
+        public void OnStarting(Func<object, Task> callback, object state)
         {
             throw new NotImplementedException();
         }
 
-        public void OnResponseCompleted(Func<object, Task> callback, object state)
+        public void OnCompleted(Func<object, Task> callback, object state)
         {
             throw new NotImplementedException();
         }

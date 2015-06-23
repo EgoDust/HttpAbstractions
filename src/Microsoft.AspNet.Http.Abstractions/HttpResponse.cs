@@ -32,15 +32,15 @@ namespace Microsoft.AspNet.Http
 
         public abstract bool HasStarted { get; }
 
-        public abstract void OnResponseStarting(Func<object, Task> callback, object state);
+        public abstract void OnStarting(Func<object, Task> callback, object state);
 
-        public virtual void OnResponseStarting(Func<Task> callback) => OnResponseStarting(_callbackDelegate, callback);
+        public virtual void OnStarting(Func<Task> callback) => OnStarting(_callbackDelegate, callback);
 
-        public abstract void OnResponseCompleted(Func<object, Task> callback, object state);
+        public abstract void OnCompleted(Func<object, Task> callback, object state);
 
-        public virtual void DisposeOnCompleted(IDisposable disposable) => OnResponseStarting(_disposeDelegate, disposable);
+        public virtual void OnCompletedDispose(IDisposable disposable) => OnStarting(_disposeDelegate, disposable);
 
-        public virtual void OnResponseCompleted(Func<Task> callback) => OnResponseCompleted(_callbackDelegate, callback);
+        public virtual void OnCompleted(Func<Task> callback) => OnCompleted(_callbackDelegate, callback);
 
         public virtual void Redirect(string location) => Redirect(location, permanent: false);
 

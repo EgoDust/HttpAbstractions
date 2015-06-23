@@ -15,7 +15,7 @@ namespace Microsoft.AspNet.Http.Features
         IDictionary<string, string[]> Headers { get; set; }
         Stream Body { get; set; }
         bool HasStarted { get; }
-        void OnResponseStarting(Func<object, Task> callback, object state);
-        void OnResponseCompleted(Func<object, Task> callback, object state);
+        void OnStarting(Func<object, Task> callback, object state);
+        void OnCompleted(Func<object, Task> callback, object state);
     }
 }
